@@ -15,9 +15,10 @@ public class TestPresenter extends BasePresenter<TestView> {
 
     }
 
+
     public  void login(User user){
         thirdObj.thirdAction();
-        if ("lisi".equals(user.getUserName())&& "123".equals(user.getPassword())){
+        if ("lisi".equals(user.getUserName()) && "123".equals(user.getPassword())){
             getView().showMessage("登陆成功");
         }else{
             getView().showMessage("登陆失败");
