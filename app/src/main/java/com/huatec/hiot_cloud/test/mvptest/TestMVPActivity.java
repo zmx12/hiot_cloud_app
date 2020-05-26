@@ -45,7 +45,7 @@ public class TestMVPActivity extends BaseActivity<TestView, TestPresenter> imple
     }
 
     @Override
-    public void injectIndependies() {
+    public void injectIndependencies() {
         getActivityComponent().inject(this);
     }
 

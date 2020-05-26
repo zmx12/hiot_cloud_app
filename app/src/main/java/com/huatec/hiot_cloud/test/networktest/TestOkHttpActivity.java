@@ -55,7 +55,7 @@ public class TestOkHttpActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login("apptest", "abc123", "app");
+                login("zmx", "abc123", "app");
             }
         });
 

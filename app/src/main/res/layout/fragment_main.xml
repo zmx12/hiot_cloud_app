@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <TextView
-    android:id="@+id/tv_main_fragment"
+    android:id="@+id/tv_fragment_main"
     android:text="测试"
     android:textColor="#5DC9D3"
     android:textSize="40sp"
