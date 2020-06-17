@@ -1,7 +1,6 @@
-package com.huatec.hiot_cloud.ui.main;
+package com.huatec.hiot_cloud.ui.login;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +9,10 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.huatec.hiot_cloud.R;
-import com.huatec.hiot_cloud.R;
 import com.huatec.hiot_cloud.data.SharedPreferencesHelper;
 import com.huatec.hiot_cloud.ui.base.BaseActivity;
 import com.huatec.hiot_cloud.ui.base.BasePresenter;
-import com.huatec.hiot_cloud.ui.login.LoginActivity;
+import com.huatec.hiot_cloud.ui.main.MainActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;

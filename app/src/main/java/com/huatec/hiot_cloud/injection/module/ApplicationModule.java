@@ -23,7 +23,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.huatec.hiot_cloud.App;
 import com.huatec.hiot_cloud.BuildConfig;
-import com.huatec.hiot_cloud.data.NetworkService;
+import com.huatec.hiot_cloud.data.NetService;
 import com.huatec.hiot_cloud.injection.ApplicationContext;
 
 import java.io.File;
@@ -80,7 +80,7 @@ public class ApplicationModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient){
         return new Retrofit.Builder()
-                .baseUrl(NetworkService.BASE_URL)
+                .baseUrl(NetService.BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -89,8 +89,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    NetworkService provideNetworkService(Retrofit retrofit){
-        return retrofit.create(NetworkService.class);
+    NetService provideNetworkService(Retrofit retrofit){
+        return retrofit.create(NetService.class);
     }
 
     @Provides

@@ -16,15 +16,18 @@
 package com.huatec.hiot_cloud.injection.component;
 
 
-import com.huatec.hiot_cloud.test.networktest.TestNetworkPackActivity;
-import com.huatec.hiot_cloud.ui.login.LoginActivity;
-import com.huatec.hiot_cloud.ui.main.MainActivity;
 import com.huatec.hiot_cloud.injection.PerActivity;
 import com.huatec.hiot_cloud.injection.module.ActivityModule;
 import com.huatec.hiot_cloud.test.mvptest.TestMVPActivity;
-import com.huatec.hiot_cloud.ui.main.SplashActivity;
+import com.huatec.hiot_cloud.test.networktest.TestNetworkPackActivity;
+import com.huatec.hiot_cloud.ui.devicedetail.DeviceDetailActivity;
+import com.huatec.hiot_cloud.ui.devicelist.DeviceListFragment;
+import com.huatec.hiot_cloud.ui.login.LoginActivity;
+import com.huatec.hiot_cloud.ui.login.SplashActivity;
+import com.huatec.hiot_cloud.ui.main.MainActivity;
 import com.huatec.hiot_cloud.ui.mine.MineFragment;
 import com.huatec.hiot_cloud.ui.register.RegisterActivity;
+import com.huatec.hiot_cloud.ui.scan.ScanActivity;
 
 import dagger.Component;
 
@@ -39,12 +42,26 @@ import dagger.Component;
 public interface ActivityComponent {
 
     void inject(MainActivity mainActivity);
+
     void inject(TestMVPActivity testMVPActivity);
+
     void inject(TestNetworkPackActivity activity);
+
     void inject(LoginActivity activity);
+
     void inject(SplashActivity activity);
+
     void inject(RegisterActivity activity);
+
     void inject(MineFragment fragment);
+
+    void inject(ScanActivity activity);
+
+    void inject(DeviceListFragment fragment);
+
+    void inject(DeviceDetailActivity activity);
+
+
 
     @Component.Builder
     interface ActivityComponentBuilder {

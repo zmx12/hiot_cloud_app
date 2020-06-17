@@ -3,30 +3,26 @@ package com.huatec.hiot_cloud.ui.mine;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Picture;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Magnifier;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.huatec.hiot_cloud.R;
-import com.huatec.hiot_cloud.test.networktest.UserBean;
+import com.huatec.hiot_cloud.data.bean.UserBean;
 import com.huatec.hiot_cloud.ui.base.BaseActivity;
 import com.huatec.hiot_cloud.ui.base.BaseFragment;
-import com.huatec.hiot_cloud.ui.base.BasePresenter;
 import com.huatec.hiot_cloud.ui.login.LoginActivity;
 import com.huatec.hiot_cloud.utils.ImageUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
@@ -40,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MineFragment extends BaseFragment<MineView, MinePresenter> implements MineView{
+public class MineFragment extends BaseFragment<MineView, MinePresenter> implements MineView {
 
     @Inject
     MinePresenter presenter;
@@ -64,15 +60,17 @@ public class MineFragment extends BaseFragment<MineView, MinePresenter> implemen
     Button btnLogout;
 
     /**
-     * fragment实例
+     * 创建fragment实例
+     *
      * @return
      */
-    public static MineFragment newInstance(){
+    public static MineFragment newInstance() {
         MineFragment fragment = new MineFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public MinePresenter createPresenter() {
         return presenter;
@@ -80,15 +78,16 @@ public class MineFragment extends BaseFragment<MineView, MinePresenter> implemen
 
     @Override
     public void injectIndependencies() {
-        if (getActivity() instanceof  BaseActivity) {
+        if (getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).getActivityComponent().inject(this);
         }
     }
 
+
     @Override
     public View initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mine,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_mine, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -96,16 +95,14 @@ public class MineFragment extends BaseFragment<MineView, MinePresenter> implemen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.loadUserInfo();
-
     }
 
-    @OnClick({R.id.iv_head_image, R.id.tv_user_center_update_password, R.id.tv_user_center_update_email,
-            R.id.btn_logout})
-    public void onViewClicked(View view){
-        switch (view.getId()){
+    @OnClick({R.id.iv_head_image, R.id.tv_user_center_update_password, R.id.tv_user_center_update_email, R.id.btn_logout})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.iv_head_image:
                 //动态授权
-                checkPermission();
+                checkPermssion();
                 break;
             case R.id.tv_user_center_update_password:
                 break;
@@ -121,7 +118,7 @@ public class MineFragment extends BaseFragment<MineView, MinePresenter> implemen
     /**
      * 动态授权
      */
-    private void checkPermission() {
+    private void checkPermssion() {
         Acp.getInstance(getActivity()).request(
                 new AcpOptions.Builder().setPermissions(
                         Manifest.permission.CAMERA,
@@ -131,13 +128,13 @@ public class MineFragment extends BaseFragment<MineView, MinePresenter> implemen
                 new AcpListener() {
                     @Override
                     public void onGranted() {
-                        //同意授权,选择图片
+                        //用户同意授权，选择图片
                         ChoosePicture();
                     }
 
                     @Override
                     public void onDenied(List<String> permissions) {
-                    showMessage("用户拒绝");
+                        showMessage("用户拒绝授权");
                     }
                 }
         );
@@ -189,10 +186,25 @@ public class MineFragment extends BaseFragment<MineView, MinePresenter> implemen
                 .isDragFrame(true)// 是否可拖动裁剪框(固定)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
 
+
     }
 
-
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            showMessage("用户取消");
+        }
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+                List<LocalMedia> ImageList = PictureSelector.obtainMultipleResult(data);
+                if (ImageList != null && !ImageList.isEmpty()) {
+                    String filePath = ImageList.get(0).getCompressPath();
+                    presenter.uploadImage(filePath);
+                }
+            }
+        }
+    }
 
     @Override
     public void refreshUserInfo(UserBean userBean) {
@@ -208,33 +220,10 @@ public class MineFragment extends BaseFragment<MineView, MinePresenter> implemen
     }
 
 
-
     @Override
     public void tokenOut() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
         getActivity().finish();
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED){
-        showMessage("用户取消");
-        }
-        if (resultCode == Activity.RESULT_OK){
-            if (requestCode == PictureConfig.CHOOSE_REQUEST){
-                List<LocalMedia> ImageList = PictureSelector.obtainMultipleResult(data);
-                if (ImageList != null && !ImageList.isEmpty()){
-                    String filePath = ImageList.get(0).getCompressPath();
-                    presenter.uploadImage(filePath);
-                }
-            }
-            }
-
-        }
-    }
-
-
-
-
+}

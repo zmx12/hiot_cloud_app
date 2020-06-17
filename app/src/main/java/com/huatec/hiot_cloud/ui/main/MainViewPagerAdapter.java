@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.huatec.hiot_cloud.ui.devicelist.DeviceListFragment;
 import com.huatec.hiot_cloud.ui.mine.MineFragment;
 import com.huatec.hiot_cloud.utils.Constants;
 
 /**
- * 适配器编写
+ * viewPager适配器
  */
 class MainViewPagerAdapter extends FragmentPagerAdapter {
     public MainViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
@@ -19,28 +20,27 @@ class MainViewPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null ;
-        switch (position){
+        Fragment fragment = null;
+        switch (position) {
             case Constants.MAIN_VIEWPAGER_INDEX_MESSAGE:
-                //创建消息的Fragment
+                //创建消息fragment todo
                 fragment = MessageFragment.newInstance();
                 break;
             case Constants.MAIN_VIEWPAGER_INDEX_EQUIPMENT:
-                //创建设备的Fragment
-                fragment = EquipmentFragment.newInstance();
+                //创建设备的fragment
+                fragment =  DeviceListFragment.newInstance();
                 break;
             case Constants.MAIN_VIEWPAGER_INDEX_SCENE:
-                //创建场景的Fragment
+                //创建设场景的fragment
                 fragment = SceneFragment.newInstance();
                 break;
             case Constants.MAIN_VIEWPAGER_INDEX_MINE:
-                //创建我的Fragment
+                //创建我的fragment
                 fragment = MineFragment.newInstance();
                 break;
-                default:
-
+            default:
         }
-        return fragment;
+        return  fragment;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.huatec.hiot_cloud.ui.base;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.huatec.hiot_cloud.injection.component.ActivityComponent;
 import com.huatec.hiot_cloud.injection.component.ApplicationComponent;
 import com.huatec.hiot_cloud.injection.component.DaggerActivityComponent;
 import com.huatec.hiot_cloud.injection.module.ActivityModule;
+import com.huatec.hiot_cloud.ui.login.LoginActivity;
 
 /**
  * MVP架构基类
@@ -87,5 +89,22 @@ public abstract class BaseActivity <V extends BaseView,P extends BasePresenter<V
     @Override
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void startActivitie(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
+        finish();
+    }
+
+    private void startActivitieWithoutFinsh(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
+    }
+
+    @Override
+    public void tokenOut() {
+        startActivitie(LoginActivity.class);
     }
 }

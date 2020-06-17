@@ -9,4 +9,6 @@ public interface BaseView {
      * @param message
      */
     void showMessage(String message);
+
+    void tokenOut();
 }
